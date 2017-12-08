@@ -54,8 +54,13 @@ namespace DelayedPoster.Code.PostWrappers
             authCredentials.LoginCompleted += (sender, e) =>
             {
                 if (e.Result)
-                    //try to post,if posting was ok then
-                    RaisePostingFinished(new OperationResultEventArgs(true));
+                {
+                    poster.TryPost(Post);
+                    poster.PostingCompleted += (sndr, arg) =>
+                    {
+                       RaisePostingFinished(e);
+                    };
+                }
                 else
                 {
                     RaisePostingFinished(new OperationResultEventArgs(false));
