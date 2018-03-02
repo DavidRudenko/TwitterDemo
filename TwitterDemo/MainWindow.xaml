@@ -1,0 +1,72 @@
+﻿<Window x:Class="TwitterDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ignore="http://www.galasoft.ch/ignore"
+        xmlns:converters="clr-namespace:DelayedSender.Converters"
+        mc:Ignorable="d ignore"
+        MinWidth="800"
+        Title="Twitter Client"
+        DataContext="{Binding Main, Source={StaticResource Locator}}">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Skins/MainSkin.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.Resources>
+            <converters:InvertedVisibilitiesConverter x:Key="IVConverter"></converters:InvertedVisibilitiesConverter>
+            <converters:ListLengthToVisibilityConverter x:Key="LLtVConverter" />
+            <converters:NullToVisibiltyConverter x:Key="NtVConverter"></converters:NullToVisibiltyConverter>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Rectangle Grid.RowSpan="2" Stretch="Fill" Fill="#2626D1"  ></Rectangle>
+        <StackPanel Grid.Row="0"  Margin="0,10,0,0" VerticalAlignment="Center" HorizontalAlignment="Stretch"  Orientation="Vertical">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Right">
+                <StackPanel  Visibility="{Binding LoggedInUser,Converter={StaticResource NtVConverter}}" >
+                    <Image Width="100" Height="100" Source="{Binding LoggedInUser.ProfileImageUrl}" />
+                    <TextBlock Margin="10" Text="{Binding LoggedInUser.Name}" FontSize="20"></TextBlock>
+                </StackPanel>
+                <Button MinWidth="100"  Margin="10,10,10,0" Visibility="{Binding ElementName=LogOutButton,Path=Visibility,Converter={StaticResource IVConverter}}"  Command="{Binding LoginCommand}" >Log In</Button>
+                <Button MinWidth="100" Name="LogOutButton" Margin="10,10,10,0" Visibility="{Binding LoggedInUser,Converter={StaticResource NtVConverter}}" Command="{Binding LogoutCommand}">Log Out</Button>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <TextBlock Text="Enter Tweet:" FontSize="20" Margin="10"></TextBlock>
+                <TextBox  MaxWidth="700" MinWidth="500" FontSize="26" Margin="10" AcceptsReturn="True" AcceptsTab="True" Text="{Binding TweetText}"></TextBox>
+            </StackPanel>
+            <StackPanel Name="AttachementsPanel"  Visibility="{Binding Attachements,Converter={StaticResource LLtVConverter}}"  Orientation="Vertical">
+                <TextBlock HorizontalAlignment="Center" Text="Attachements List"  FontSize="20" FontWeight="Bold" Margin="10" ></TextBlock>
+                <!--TODO:Add converters for visibility-->
+                <ListBox  ItemsSource="{Binding Attachements}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Name="TemplateRoot" >
+                                <StackPanel Margin="10,0,10,0"  Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  >
+                                    <Button Margin="10,0,0,0"  FontSize="18"  HorizontalAlignment="Right" FontWeight="Bold"
+                                            Command="{Binding Source={StaticResource Locator},Path=Main.RemoveAttachementCommand}"
+                                            CommandParameter="{Binding ElementName=TB,Path=Text}"  >Remove Attachement</Button>
+                                    <TextBlock  Margin="10,0,0,0"  Text="{Binding File.FullName}" Name="TB"  FontSize="20" FontWeight="Bold" TextAlignment="Center" ></TextBlock>
+                               
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+           
+            <Button  FontSize="20" Margin="10" Padding="5" MaxWidth="300" Command="{Binding AddAttachementCommand}">Add Attachement</Button>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="1">
+            <Button Margin="10"  MaxWidth="300" Padding="5" Command="{Binding AddWrapperCommand}"  FontSize="20">Add Post To The Queue</Button>
+        </StackPanel>
+        
+    </Grid>
+</Window>
+

@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9B3ECF81-F22C-4D55-87B5-CECC98603795}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DelayedPoster.Code</RootNamespace>
+    <AssemblyName>DelayedPoster.Code</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Hammock, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c148cfba29ed1a4d, processorArchitecture=MSIL">
+      <HintPath>..\packages\TweetSharp-Unofficial.2.3.1.2\lib\4.0\Hammock.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\TweetSharp-Unofficial.2.3.1.2\lib\4.0\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="TweetSharp, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c148cfba29ed1a4d, processorArchitecture=MSIL">
+      <HintPath>..\packages\TweetSharp-Unofficial.2.3.1.2\lib\4.0\TweetSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attachement.cs" />
+    <Compile Include="Authentification\AppCredentialsObtainers\ITwitterAppCredentialsObtainer.cs" />
+    <Compile Include="Authentification\AppCredentialsObtainers\TwitterAppCredentialsObtainer.cs" />
+    <Compile Include="Authentification\AppCredentials\TwitterAppCredentials.cs" />
+    <Compile Include="Authentification\Credentials\OAuthCredentials.cs" />
+    <Compile Include="Authentification\EventArgs\OperationResultEventArgs.cs" />
+    <Compile Include="Authentification\EventArgs\PinCodeEnteredEventArgs.cs" />
+    <Compile Include="Authentification\PinObtainers\IPinObtainer.cs" />
+    <Compile Include="Authentification\PinObtainers\WrongPinObtainer.cs" />
+    <Compile Include="Authentification\PinObtainers\TwitterPinObtainer.cs" />
+    <Compile Include="Authentification\IAuthCredentials.cs" />
+    <Compile Include="Authentification\TwitterAuthCredentials.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Posters\TwitterPoster.cs" />
+    <Compile Include="PostWrappers\PostWrapper.cs" />
+    <Compile Include="Loggers\ILogger.cs" />
+    <Compile Include="Loggers\DebugConsoleLogger.cs" />
+    <Compile Include="Loggers\StubLogger.cs" />
+    <Compile Include="Post.cs" />
+    <Compile Include="Posters\Poster.cs" />
+    <Compile Include="PostWrappers\TwitterPostWrapper.cs" />
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Timers\IPostDelayTimer.cs" />
+    <Compile Include="Timers\PostDelayTimer.cs" />
+    <Compile Include="Authentification\LoginWindows\TwitterLoginWindow.xaml.cs">
+      <DependentUpon>TwitterLoginWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WebWorkers\TwitterWebWorker.cs" />
+    <Compile Include="WebWorkers\WebWorker.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Authentification\LoginWindows\TwitterLoginWindow.xaml">
+      <SubType>Form</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
